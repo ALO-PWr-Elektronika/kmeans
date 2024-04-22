@@ -12,12 +12,12 @@ def hello_world():
     points = np.array(data['points'])
     k = int(data['k'])
     
-    centroids, assigments = KMeans.kmeans(points,k)
+    centroids, assignments = KMeans.kmeans(points,k)
 
     
     result = {
         'centroids': centroids.tolist(),
-        'assignments': assigments.tolist()
+        'assignments': assignments.tolist()
     }
     
     return jsonify(result)
@@ -27,13 +27,13 @@ def hello_world():
 def hello():
     points = np.array([(1, 2), (3, 4), (5, 6), (7, 8)])
     k = 2
-    centroids, assigments = KMeans.kmeans(points,k)
+    centroids, assignments = KMeans.kmeans(points,k)
     
     result = {
         'points': points,
         'k': k,
         'centroids': centroids.tolist(),
-        'assignments': assigments.tolist()
+        'assignments': assignments.tolist()
     }
 
     return render_template('kmeans.html', result=result)
