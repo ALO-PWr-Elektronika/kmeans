@@ -1,44 +1,33 @@
 from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
 import numpy as np
 
 from kmeans import KMeans
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route("/")
 def hello_world():
-    data = request.get_json()
-    
-    points = np.array(data['points'])
-    k = int(data['k'])
-    
-    centroids, assigments = KMeans.kmeans(points,k)
+    return "<h1>API is listening. POST on '/cluster'</h1>"
 
-    
-    result = {
-        'centroids': centroids.tolist(),
-        'assignments': assigments.tolist()
-    }
-    
-    return jsonify(result)
+@app.route("/cluster", methods=["POST"])
+def create_clusters():
+    data = request.json
+    markers = data.get("markers")
+    points = np.array(markers)
 
+    if len(points) == 0:
+        return jsonify([])
 
-@app.route("/kmeans")
-def hello():
-    points = np.array([(1, 2), (3, 4), (5, 6), (7, 8)])
-    k = 2
-    centroids, assigments = KMeans.kmeans(points,k)
-    
-    result = {
-        'points': points,
-        'k': k,
-        'centroids': centroids.tolist(),
-        'assignments': assigments.tolist()
-    }
+    k = int(request.args.get("k", 2))
+    _, assignments = KMeans.kmeans(points, k)
 
-    return render_template('kmeans.html', result=result)
+    updated_markers = [
+        {"lat": markers[i][0], "lng": markers[i][1], "group": int(assignments[i])} for i in range(len(markers))
+    ]
     
+    return jsonify(updated_markers)
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
-   
