@@ -2,7 +2,7 @@ import React, { CSSProperties, useState } from 'react';
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import L from 'leaflet';
 
-const COLORS = ['red', 'blue', 'green', 'yellow', 'orange', 'purple', 'cyan', 'magenta', 'lime', 'pink'];
+const COLORS = ['red', 'blue', 'green', 'gold', 'orange', 'violet', 'grey', 'black'];
 
 const buttonContainerProperties: CSSProperties = {
     display: 'flex',

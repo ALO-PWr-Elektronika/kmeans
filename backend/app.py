@@ -16,11 +16,17 @@ def create_clusters():
     data = request.json
     markers = data.get("markers")
     points = np.array(markers)
+    k = int(request.args.get("k", 2))
 
     if len(points) == 0:
         return jsonify([])
+    
+    if len(points) == 1:
+        return jsonify([{"lat": points[0][0], "lng": points[0][1], "group": 0}])
+    
+    if len(points) < k:
+        return jsonify([{"lat": points[i][0], "lng": points[i][1], "group": i} for i in range(len(points))])
 
-    k = int(request.args.get("k", 2))
     _, assignments = KMeans.kmeans(points, k)
 
     updated_markers = [
