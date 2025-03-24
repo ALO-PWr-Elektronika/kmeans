@@ -45,7 +45,7 @@ const MapView = () => {
     });
 
     const createClusters = () => {
-        fetch(`http://localhost:5000/cluster?k=${k}`, {
+        fetch(`http://localhost/api/cluster?k=${k}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -162,9 +162,9 @@ const MapView = () => {
                         <ul>
                             {metroMarkers.map((marker, idx) => (
                                 <li key={`metro-marker-${idx}`}>
-                                    <a 
-                                        href={`https://www.google.com/maps?q=${marker[0][0]},${marker[0][1]}`} 
-                                        target="_blank" 
+                                    <a
+                                        href={`https://www.google.com/maps?q=${marker[0][0]},${marker[0][1]}`}
+                                        target="_blank"
                                         rel="noopener noreferrer"
                                     >
                                         {marker[2]} - {marker[3]} cluster

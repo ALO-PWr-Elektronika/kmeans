@@ -7,11 +7,11 @@ from kmeans import KMeans
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-@app.route("/")
+@app.route("/api/")
 def hello_world():
-    return "<h1>API is listening. POST on '/cluster'</h1>"
+    return "<h1>API is listening. POST on '/api/cluster'</h1>"
 
-@app.route("/cluster", methods=["POST"])
+@app.route("/api/cluster", methods=["POST"])
 def create_clusters():
     data = request.json
     markers = data.get("markers")
@@ -36,4 +36,4 @@ def create_clusters():
     return jsonify(updated_markers)
 
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(port=5000, debug=True, host="0.0.0.0")
